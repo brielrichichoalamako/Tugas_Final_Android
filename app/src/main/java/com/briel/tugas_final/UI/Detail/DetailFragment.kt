@@ -23,7 +23,7 @@ class DetailFragment : Fragment() {
         detailToolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
-        
+
         title.text = standing!!.team.displayName
 
         Picasso.get()
