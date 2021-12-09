@@ -10,18 +10,26 @@ import com.briel.tugas_final.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_layout_home_team.view.*
 
-class TeamAdapter(): RecyclerView.Adapter<TeamAdapter.Holder>() {
+class TeamAdapter(val listener: TeamAdapter.Listener): RecyclerView.Adapter<TeamAdapter.Holder>() {
+
+    interface Listener {
+        fun onItemCLick(standing: Standing)
+    }
 
     private var listStanding = mutableListOf<Standing>()
 
     inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(tim: Standing) {
+        fun bind(tim: Standing, listener: Listener) {
             with(itemView) {
                 Picasso.get()
                     .load(tim.team.logos[0].href)
                     .into(logoTeam)
 
                 nameTeam.text = tim.team.displayName
+
+                this.setOnClickListener {
+                    listener.onItemCLick(tim)
+                }
             }
         }
     }
@@ -37,7 +45,7 @@ class TeamAdapter(): RecyclerView.Adapter<TeamAdapter.Holder>() {
     }
 
     override fun onBindViewHolder(holder: TeamAdapter.Holder, position: Int) {
-        holder.bind(listStanding[position])
+        holder.bind(listStanding[position], listener)
     }
 
     override fun getItemCount(): Int {

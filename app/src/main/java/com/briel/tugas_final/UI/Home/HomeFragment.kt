@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.briel.tugas_final.Model.Data
 import com.briel.tugas_final.Model.Standing
 import com.briel.tugas_final.Model.Team
 import com.briel.tugas_final.R
+import com.briel.tugas_final.UI.Detail.DetailFragment
 import com.briel.tugas_final.adapter.TeamAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.async
@@ -39,7 +41,12 @@ class HomeFragment : Fragment() {
 
     private fun initVariable() {
         viewModel = HomeViewModel()
-        adapter = TeamAdapter()
+        adapter = TeamAdapter(object : TeamAdapter.Listener {
+            override fun onItemCLick(standing: Standing) {
+                DetailFragment.standing = standing
+                findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
+            }
+        })
         rcView_home.setHasFixedSize(true)
         rcView_home.layoutManager = GridLayoutManager(this.requireContext(), 2)
         rcView_home.adapter = adapter
