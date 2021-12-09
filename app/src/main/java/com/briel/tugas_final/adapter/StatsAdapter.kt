@@ -6,13 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.briel.tugas_final.Model.Stat
 import com.briel.tugas_final.R
+import kotlinx.android.synthetic.main.item_layout_detail_stats.view.*
 
 class StatsAdapter(private val stats: MutableList<Stat>): RecyclerView.Adapter<StatsAdapter.Holder>() {
 
     inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun bind(stat: Stat) {
             with(itemView) {
-
+                displayName.text = stat.displayName
+                count.text = stat.value.toString()
             }
         }
     }

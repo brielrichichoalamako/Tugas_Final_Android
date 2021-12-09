@@ -5,8 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import com.briel.tugas_final.Model.Standing
+import com.briel.tugas_final.Model.Stat
 import com.briel.tugas_final.R
+import com.briel.tugas_final.adapter.StatsAdapter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.item_layout_home_team.view.*
@@ -30,6 +33,13 @@ class DetailFragment : Fragment() {
             .load(standing!!.team.logos[0].href)
             .into(logoTeamDetail)
 
+        initReciclerView()
+    }
+
+    private fun initReciclerView() {
+        rcView_stats.setHasFixedSize(true)
+        rcView_stats.layoutManager = GridLayoutManager(this.requireContext(), 2)
+        rcView_stats.adapter = StatsAdapter(standing!!.stats as MutableList<Stat>)
     }
 
     companion object {
