@@ -1,5 +1,6 @@
 package com.briel.tugas_final.UI.Detail
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -45,7 +46,27 @@ class DetailFragment : Fragment() {
     private fun initReciclerView() {
         rcView_stats.setHasFixedSize(true)
         rcView_stats.layoutManager = GridLayoutManager(this.requireContext(), 2)
-        rcView_stats.adapter = StatsAdapter(standing!!.stats as MutableList<Stat>)
+        rcView_stats.adapter = StatsAdapter(standing!!.stats as MutableList<Stat>, object : StatsAdapter.Listener {
+            override fun onShareClick(stat: Stat) {
+                shareAction(stat)
+            }
+        })
+    }
+
+    private fun shareAction(stat: Stat) {
+
+        val text = "${standing!!.team.displayName}\n" +
+                "${stat.displayName} : ${stat.value}"
+
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(
+                Intent.EXTRA_TEXT, text)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
     companion object {

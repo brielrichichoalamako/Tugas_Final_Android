@@ -8,13 +8,20 @@ import com.briel.tugas_final.Model.Stat
 import com.briel.tugas_final.R
 import kotlinx.android.synthetic.main.item_layout_detail_stats.view.*
 
-class StatsAdapter(private val stats: MutableList<Stat>): RecyclerView.Adapter<StatsAdapter.Holder>() {
+class StatsAdapter(private val stats: MutableList<Stat>, private val listener: Listener): RecyclerView.Adapter<StatsAdapter.Holder>() {
+
+    interface Listener {
+        fun onShareClick(stat: Stat)
+    }
 
     inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(stat: Stat) {
+        fun bind(stat: Stat, listener: Listener) {
             with(itemView) {
                 displayName.text = stat.displayName
                 count.text = stat.value.toString()
+                shareBtn.setOnClickListener {
+                    listener.onShareClick(stat)
+                }
             }
         }
     }
@@ -25,7 +32,7 @@ class StatsAdapter(private val stats: MutableList<Stat>): RecyclerView.Adapter<S
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(stats[position])
+        holder.bind(stats[position], listener)
     }
 
     override fun getItemCount(): Int {
