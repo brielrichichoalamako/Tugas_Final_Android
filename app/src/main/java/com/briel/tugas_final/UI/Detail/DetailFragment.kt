@@ -33,6 +33,12 @@ class DetailFragment : Fragment() {
             .load(standing!!.team.logos[0].href)
             .into(logoTeamDetail)
 
+        if(standing!!.note != null) {
+            championLayout.visibility = View.VISIBLE
+            titleChamp.text = standing!!.note!!.description
+            rankChamp.text = "Ranks ${standing!!.note!!.rank}"
+        }
+
         initReciclerView()
     }
 
