@@ -6,17 +6,28 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.briel.tugas_final.Model.Team
 import com.briel.tugas_final.R
+import com.briel.tugas_final.UI.Home.Tim
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.item_layout_home_team.view.*
 
 class TeamAdapter(): RecyclerView.Adapter<TeamAdapter.Holder>() {
 
-    private val listTeam = mutableListOf<Team>()
+    private var listTeam = mutableListOf<Tim>()
 
     inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind() {
+        fun bind(tim: Tim) {
             with(itemView) {
-
+                Picasso.get()
+                    .load(tim.url)
+                    .into(logoTeam)
+                nameTeam.text = tim.name
             }
         }
+    }
+
+    fun setData(list: MutableList<Tim>) {
+        this.listTeam = list
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamAdapter.Holder {
@@ -25,7 +36,7 @@ class TeamAdapter(): RecyclerView.Adapter<TeamAdapter.Holder>() {
     }
 
     override fun onBindViewHolder(holder: TeamAdapter.Holder, position: Int) {
-        holder.bind()
+        holder.bind(listTeam[position])
     }
 
     override fun getItemCount(): Int {
